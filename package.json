@@ -1,0 +1,29 @@
+{
+  "name": "behat_v2",
+  "version": "0.0.0",
+  "description": "Behat Edit Backend V2",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "phantomjs": "~1.9.7-14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/alnutile/behat_v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alnutile/behat_v2/issues"
+  },
+  "homepage": "https://github.com/alnutile/behat_v2",
+  "bin" : {
+      "npm" : "./phantomjs"
+  }
+}
