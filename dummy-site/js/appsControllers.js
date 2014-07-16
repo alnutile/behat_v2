@@ -10,4 +10,11 @@ angular.module('appControllers', [])
                     console.log(response);
                 });
             }
+
+            $scope.streamProcess = function()
+            {
+                Restangular.one('stream_process').get().then(function(response){
+                   $scope.response = response;
+                });
+            }
 }]);

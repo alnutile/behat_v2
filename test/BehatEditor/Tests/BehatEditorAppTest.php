@@ -358,7 +358,7 @@ class BehatEditorTest extends Base {
 //
 //        $command = BehatCommand::getInstance()
 //            ->setOption('config', $yaml)
-//            ->setOption('profile', 'saucelabs')
+//            ->setOption('profile', 'phantom')
 //            ->setTestPath($test);
 //
 //        //Run and Release
