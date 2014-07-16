@@ -22,6 +22,15 @@ in many ways document the code
   * Includes events to trigger tests and update at end of behat tests
   * Events to pull in assets on a fail or as needed
 
+### GitApiWrapper
+  
+   Library comming soon this just needs to be ported to this new build
+   
+   * Using the https://github.com/KnpLabs/php-github-api as the base allows BehatEditor to
+     * Search files on github api 
+     * CRUD files from github api
+     * Run tests using files from githubAPI
+
 ### Reporting (coming soon)
 
   * To create events for reporting including pulling in the job id of the service we are using etc.
