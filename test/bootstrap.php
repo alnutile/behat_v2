@@ -12,6 +12,7 @@ if ((!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php')) && (!$loader
         'curl -s http://getcomposer.org/installer | php'.PHP_EOL.
         'php composer.phar install'.PHP_EOL);
 }
+\VCR\VCR::configure()->setCassettePath(__DIR__ .'/../test/fixtures');
 
 $loader->add('BehatEditor\Tests', __DIR__);
 

@@ -10,9 +10,15 @@
          stopOnFailure="false"
          syntaxCheck="false"
         >
+    <listeners>
+        <listener class="PHPUnit_Util_Log_VCR" file="vendor/php-vcr/phpunit-testlistener-vcr/PHPUnit/Util/Log/VCR.php" />
+    </listeners>
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory>test</directory>
+        </testsuite>
+        <testsuite name="SauceOnly">
+            <directory>test/BehatEditor/Tests/Sauce</directory>
         </testsuite>
     </testsuites>
 </phpunit>

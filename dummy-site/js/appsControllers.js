@@ -8,6 +8,7 @@ angular.module('appControllers', [])
             $scope.run = function() {
                 Restangular.one('run_test').get().then(function(response){
                     console.log(response);
+                    $scope.response = response;
                 });
             }
 

@@ -35,7 +35,7 @@ use BehatEditor\BehatOutputListener;
 $behat_wrapper = new BehatWrapper();
 $bin = __DIR__ . '/bin/';
 $yaml = __DIR__ . '/private/behat.yml';
-$test = __DIR__ . '/private/features/local_long_test.feature';
+$test = __DIR__ . '/private/features/wikipedia_long.feature';
 
 $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -52,7 +52,7 @@ $behat_wrapper->addPrepareListener($listener);
 
 $command = BehatCommand::getInstance()
     ->setOption('config', $yaml)
-    ->setOption('profile', 'default')
+    ->setOption('profile', 'saucelabs')
     ->setTestPath($test);
 
 //Run and Release
@@ -61,8 +61,8 @@ var_dump("This is running now for output of pid " . $process->getPid());
 
 //Get output but find the process based on the pid
 while($process->isRunning()) {
-    var_dump("Is running " . @date('U'));
-    var_dump($process->getPid());
-    var_dump($behat_wrapper->getOutput($process));
+    echo "Is running " . @date('U') . "\n";
+    echo $process->getPid();
+    echo $behat_wrapper->getOutput($process);
     sleep(1);
 }

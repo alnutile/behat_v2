@@ -48,17 +48,18 @@ $app->get('/run_test', function () use ($app) {
 
     $command = BehatCommand::getInstance()
         ->setOption('config', $yaml)
-        ->setOption('profile', 'default')
+        ->setOption('profile', 'phantom')
         ->setTestPath($test);
-    $process = $behat_wrapper->start($command);
 
-    //echo $process->getPid();
-    //Get output but find the process based on the pid
-//    while($process->isRunning()) {
-//        echo $behat_wrapper->getOutput($process);
-//        sleep(1);
-//    }
-    //send back the pid
+    try {
+        $output = $behat_wrapper->run($command);
+        $app->response->setStatus(200);
+        $app->response->setBody($output);
+    }
+    catch(\Exception $e){
+        $app->response->setStatus(200);
+        $app->response->setBody($e->getMessage());
+    }
 
 });
 
