@@ -1,0 +1,48 @@
+default:
+  paths:
+    features:  features
+    bootstrap: features/bootstrap
+  formatter:
+    name: pretty
+  extensions:
+    Behat\MinkExtension\Extension:
+      default_session: selenium2
+      goutte: null
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
+      base_url: 'http://b2.dev'
+      browser_name: safari
+
+sahi:
+  extensions:
+    Behat\MinkExtension\Extension:
+      default_session: sahi
+      goutte: null
+      sahi: ~
+
+phantom:
+  extensions:
+    Behat\MinkExtension\Extension:
+      default_session: selenium2
+      goutte: null
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
+        capabilities:
+          platform: 'Windows 2012'
+          browser: chrome
+          version: '26'
+          name: 'Behat V2'
+
+saucelabs:
+  extensions:
+    Behat\MinkExtension\Extension:
+      default_session: selenium2
+      base_url: 'http://en.wikipedia.org/wiki/'
+      selenium2:
+        browser: chrome
+        wd_host: 'YOUR_USERNAME:YOUR_TOKEN@ondemand.saucelabs.com/wd/hub'
+        capabilities:
+          platform: 'Windows 2012'
+          browser: chrome
+          version: '26'
+          name: 'Behat V2'

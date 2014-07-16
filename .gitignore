@@ -1,5 +1,5 @@
 dummy-site/bower_assets/*
-private/*
+private/behat.yml
 .idea/*
 vendor/*
 composer.lock
