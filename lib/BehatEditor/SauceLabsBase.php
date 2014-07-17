@@ -15,13 +15,12 @@ use Dotenv;
 \Dotenv::load(__DIR__.'/../../');
 
 abstract class SauceLabsBase {
+    use BehatEditorTraits;
 
     protected $saucelabsClient;
-    protected $uuid;
     protected $activeId;
     protected $tags = [];
     protected $custom_data = [];
-    protected $status;
 
     public function __construct(\SauceLabs\Client $sauceLabsClient = null)
     {
@@ -57,17 +56,6 @@ abstract class SauceLabsBase {
             $this->getJobId(),
             ['passed' => $this->getStatus()]);
         return $this;
-    }
-
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
     }
 
 
@@ -110,17 +98,6 @@ abstract class SauceLabsBase {
         } catch(\Exception $e) {
             throw new \Exception("Failed finding job with the name " . $this->getUuid());
         }
-    }
-
-    public function getUuid()
-    {
-        return $this->uuid;
-    }
-
-    public function setUuid($uuid)
-    {
-        $this->uuid = $uuid;
-        return $this;
     }
 
     public function auth()

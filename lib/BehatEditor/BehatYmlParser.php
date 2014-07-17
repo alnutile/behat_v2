@@ -117,6 +117,11 @@ class BehatYmlParser {
         return $yaml;
     }
 
+    public function pluckFromYmlArray($key)
+    {
+        return $this->yamlToArray[$key];
+    }
+
     public function getYamlToArray()
     {
         if($this->yamlToArray) {
@@ -126,13 +131,15 @@ class BehatYmlParser {
         return $this->yamlToArray;
     }
 
-    public function setYamlToArray()
+    public function setYamlToArray($path = null)
     {
-        if($this->getOption('config'))
-        {
+        if($this->getOption('config') && $path === null) {
             //set the array
             //read it and set it
             $this->yamlToArray = $this->yaml->parse($this->getOption('config'));
+            return $this;
+        } elseif($path) {
+            $this->yamlToArray = $this->yaml->parse($path);
             return $this;
         }
         $this->yamlToArray = [];

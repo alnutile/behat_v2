@@ -1,9 +1,10 @@
 <?php
 
-namespace BehatEditor\Tests;
+namespace BehatEditor\Core\Tests;
 
 use BehatEditor\BehatPrepareListener;
 use BehatEditor\BehatSetNewNameOnYaml;
+use BehatEditor\Tests\Base;
 use BehatWrapper\BehatCommand;
 use BehatEditor\Tests\BaseTest;
 use BehatWrapper\BehatWrapper;
@@ -33,9 +34,9 @@ class BehatEditorTest extends Base {
     public function thow_exception_on_test_fail()
     {
         $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../bin/';
-        $yaml = __DIR__ . '/../../../private/behat.yml';
-        $test = __DIR__ . '/../../../private/features/fail_test.feature';
+        $bin = __DIR__ . '/../../../../bin/';
+        $yaml = __DIR__ . '/../../../../private/behat.yml';
+        $test = __DIR__ . '/../../../../private/features/fail_test.feature';
 
         $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -55,9 +56,9 @@ class BehatEditorTest extends Base {
     public function listen_on_wrapper_non_output_event()
     {
         $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../bin/';
-        $yaml = __DIR__ . '/../../../private/behat.yml';
-        $test = __DIR__ . '/../../../private/features/local.feature';
+        $bin = __DIR__ . '/../../../../bin/';
+        $yaml = __DIR__ . '/../../../../private/behat.yml';
+        $test = __DIR__ . '/../../../../private/features/local.feature';
 
         $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -85,9 +86,9 @@ class BehatEditorTest extends Base {
     public function listen_on_wrapper_phantom_prepare_event_set_tmp_folder()
     {
         $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../bin/';
-        $yaml = __DIR__ . '/../../../private/behat.yml';
-        $test = __DIR__ . '/../../../private/features/local.feature';
+        $bin = __DIR__ . '/../../../../bin/';
+        $yaml = __DIR__ . '/../../../../private/behat.yml';
+        $test = __DIR__ . '/../../../../private/features/local.feature';
 
         $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -119,9 +120,9 @@ class BehatEditorTest extends Base {
     public function listen_on_wrapper_phantom_prepare_event_set_name_now_in_yaml_file()
     {
         $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../bin/';
-        $yaml = __DIR__ . '/../../../private/behat.yml';
-        $test = __DIR__ . '/../../../private/features/local.feature';
+        $bin = __DIR__ . '/../../../../bin/';
+        $yaml = __DIR__ . '/../../../../private/behat.yml';
+        $test = __DIR__ . '/../../../../private/features/local.feature';
 
         $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -167,9 +168,9 @@ class BehatEditorTest extends Base {
     public function get_output_on_failed_test()
     {
         $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../bin/';
-        $yaml = __DIR__ . '/../../../private/behat.yml';
-        $test = __DIR__ . '/../../../private/features/fail_test.feature';
+        $bin = __DIR__ . '/../../../../bin/';
+        $yaml = __DIR__ . '/../../../../private/behat.yml';
+        $test = __DIR__ . '/../../../../private/features/fail_test.feature';
 
         $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -216,9 +217,9 @@ class BehatEditorTest extends Base {
     public function set_stream_true_for_output()
     {
         $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../bin/';
-        $yaml = __DIR__ . '/../../../private/behat.yml';
-        $test = __DIR__ . '/../../../private/features/local.feature';
+        $bin = __DIR__ . '/../../../../bin/';
+        $yaml = __DIR__ . '/../../../../private/behat.yml';
+        $test = __DIR__ . '/../../../../private/features/local.feature';
 
         $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 
@@ -280,9 +281,9 @@ class BehatEditorTest extends Base {
 //            }
 //        }
 //        $behat_wrapper = new BehatWrapper();
-//        $bin = __DIR__ . '/../../../bin/';
-//        $yaml = __DIR__ . '/../../../private/behat.yml';
-//        $test = __DIR__ . '/../../../private/features/local_long_test.feature';
+//        $bin = __DIR__ . '/../../../../bin/';
+//        $yaml = __DIR__ . '/../../../../private/behat.yml';
+//        $test = __DIR__ . '/../../../../private/features/local_long_test.feature';
 //
 //        $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
 //

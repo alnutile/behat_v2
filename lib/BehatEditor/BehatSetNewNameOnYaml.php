@@ -21,7 +21,8 @@ use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
  * Class BehatSetNewNameOnYaml
  * @package BehatEditor
  */
-class BehatSetNewNameOnYaml extends BehatYmlMangler {
+class BehatSetNewNameOnYaml   {
+    use BehatYmlMangler, BehatEditorTraits;
 
     protected $yml_name;
     protected $new_name;

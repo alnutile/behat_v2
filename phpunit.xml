@@ -20,5 +20,11 @@
         <testsuite name="SauceOnly">
             <directory>test/BehatEditor/Tests/Sauce</directory>
         </testsuite>
+        <testsuite name="Core">
+            <directory>test/BehatEditor/Tests/Core</directory>
+        </testsuite>
+        <testsuite name="Reporting">
+            <directory>test/BehatEditor/Tests/Reporting</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

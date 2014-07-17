@@ -12,18 +12,24 @@ use Rhumsaa\Uuid\Uuid;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
-abstract class BehatYmlMangler {
-
-    const TEMP = '/tmp';
+/**
+ * This trait relies on BehatEditorTraits
+ *
+ * Class BehatYmlMangler
+ * @package BehatEditor
+ */
+trait BehatYmlMangler {
 
     protected $event;
     protected $profile_key;
     protected $updated_yaml;
+    protected $ymlPath;
     protected $ymlArray;
 
     protected $destination;
-    protected $uuid;
-    protected $new_name;
+
+    protected $temp = '/tmp';
+
 
     /**
      * @var BehatYmlParser
@@ -55,6 +61,17 @@ abstract class BehatYmlMangler {
         $this->behatYmlParser->getFilesystem()->dumpFile($this->getDestination(), $output);
     }
 
+    public function getTemp()
+    {
+        return $this->temp;
+    }
+
+    public function setTemp($temp)
+    {
+        $this->temp = $temp;
+        return $this;
+    }
+
     public function getDestination()
     {
         if(null === $this->destination) {
@@ -66,11 +83,22 @@ abstract class BehatYmlMangler {
     public function setDestination($destination = null)
     {
         if($destination === null) {
-            $this->destination = self::TEMP . '/' . $this->getNewName();
+            $this->destination = $this->getTemp() . '/' . $this->getNewName();
         } else {
             $this->destination = $destination;
         }
         return $this;
+    }
+
+    public function setYmlPath($path)
+    {
+        $this->ymlPath = $path;
+        return $this;
+    }
+
+    public function getYmlPath()
+    {
+        return $this->ymlPath;
     }
 
     public function getNewName()
@@ -91,24 +119,6 @@ abstract class BehatYmlMangler {
         return $this;
     }
 
-    public function getUuid()
-    {
-        if (null === $this->uuid)
-        {
-           $this->setUuid();
-        }
-        return $this->uuid;
-    }
-
-    public function setUuid($uuid = null)
-    {
-        if($uuid) {
-            $this->uuid = $uuid;
-            return $this;
-        }
-        $this->uuid = Uuid::uuid4()->toString();
-        return $this;
-    }
 
     public function getYmlArray() {
         if(null === $this->ymlArray) {
