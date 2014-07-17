@@ -29,61 +29,60 @@ use BehatEditor\BehatOutputListener;
 
 class ReportingTest extends Base {
     const ROOT = '/../../../../';
-//    /**
-//     * @test
-//     */
-//    public function add_reporting_event_check_the_data_values_being_reported()
-//    {
-//        $behat_wrapper = new BehatEditorBehatWrapper();
-//        $bin = __DIR__ . self::ROOT . 'bin/';
-//        $yaml = __DIR__ . self::ROOT . 'private/behat.yml';
-//        $test = __DIR__ . self::ROOT . 'private/features/local.feature';
-//
-//        //Typically a test comes in via url or command line with three args to start
-//        // 1. repo_name
-//        // 2. branch
-//        // 3. filename
-//
-//        //The rest is sent in via params via POST or PUT unless I stick with GET not sure
-//
-//        $behat_wrapper->setBranch('master');
-//        $behat_wrapper->setRepoName('bbbbb_test');
-//        $behat_wrapper->setFilename('local.feature');
-//
-//        $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
-//
-//        //Listeners
-//
-//        //This one gets Output while it is going line by line
-//        $behat_wrapper->addOutputListener(new BehatOutputListener());
-//
-//
-//        //Add behat.command.prepare
-//        $setName = new BehatSetNewNameOnYaml();
-//        $listener = new BehatPrepareListener($setName);
-//        $behat_wrapper->addPrepareListener($listener);
-//
-//        $behat_wrapper->setUuid($setName->getUuid());
-//
-//        //Add a report listener
-//        $reportListener = new BehatReportingListener();
-//
-//        $behat_wrapper->addSuccessListener($reportListener);
-//
-//
-//        $command = BehatCommand::getInstance()
-//            ->setOption('config', $yaml)
-//            ->setOption('profile', 'phantom')
-//            ->setTestPath($test);
-//
-//        //@TODO how to much run the behat side of this for testing
-//        $behat_wrapper->run($command);
-//        $this->assertContains($setName->getNewName(), $command->getOptions()['config']);
-//        $this->assertEquals('local.feature', $reportListener->getDataValues()['file_name']);
-//        $this->assertEquals('1', $reportListener->getDataValues()['status']);
-//        var_dump("Now from the test file");
-//        var_dump($reportListener->getDataValues());
-//    }
+
+    /**
+     * @test
+     */
+    public function add_reporting_event_check_the_behat_yml_data_values_being_reported()
+    {
+        $behat_wrapper = new BehatEditorBehatWrapper();
+        $behat_wrapper->setUuid();
+
+        $bin = __DIR__ . self::ROOT . 'bin/';
+        $yaml = __DIR__ . self::ROOT . 'private/behat.yml';
+        $test = __DIR__ . self::ROOT . 'private/features/local.feature';
+
+        //Typically a test comes in via url or command line with three args to start
+        // 1. repo_name
+        // 2. branch
+        // 3. filename
+
+        //The rest is sent in via params via POST or PUT unless I stick with GET not sure
+
+        $behat_wrapper->setBranch('master');
+        $behat_wrapper->setRepoName('bbbbb_test');
+        $behat_wrapper->setFilename('local.feature');
+
+        $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
+
+        //Listeners
+
+        //This one gets Output while it is going line by line
+        $behat_wrapper->addOutputListener(new BehatOutputListener());
+
+
+        //Add behat.command.prepare
+        $setName = new BehatSetNewNameOnYaml();
+        $listener = new BehatPrepareListener($setName);
+        $behat_wrapper->addPrepareListener($listener);
+
+        //Add a report listener
+        $reportListener = new BehatReportingListener();
+
+        $behat_wrapper->addSuccessListener($reportListener);
+
+        $command = BehatCommand::getInstance()
+            ->setOption('config', $yaml)
+            ->setOption('profile', 'phantom')
+            ->setTestPath($test);
+
+        //@TODO how to much run the behat side of this for testing
+        $behat_wrapper->run($command);
+        $this->assertContains($setName->getNewName(), $command->getOptions()['config']);
+        $this->assertEquals('local.feature', $reportListener->getDataValues()['file_name']);
+        $this->assertNotNull($reportListener->getDataValues()['browser']);
+        $this->assertEquals('1', $reportListener->getDataValues()['status']);
+    }
 
     /**
      * This one is slow cause it uses saucelabs so
@@ -94,6 +93,10 @@ class ReportingTest extends Base {
     public function add_reporting_event_check_that_saucelabs_job_id_is_added()
     {
         $behat_wrapper = new BehatEditorBehatWrapper();
+        $behat_wrapper->setUuid();
+        $behat_wrapper->setTags(['@tag1', '@tag2']);
+        $behat_wrapper->setCustomData(['foo' => 'bar']);
+
         $bin = __DIR__ . self::ROOT . 'bin/';
         $yaml = __DIR__ . self::ROOT . 'private/behat.yml';
         $test = __DIR__ . self::ROOT . 'private/features/wikipedia.feature';
@@ -123,12 +126,10 @@ class ReportingTest extends Base {
         $listener = new BehatPrepareListener($setName);
         $behat_wrapper->addPrepareListener($listener);
 
-        $behat_wrapper->setUuid($setName->getUuid());
 
         //Add a report listener
         $reportListener = new BehatReportingListener();
         $behat_wrapper->addSuccessListener($reportListener);
-
 
         $command = BehatCommand::getInstance()
             ->setOption('config', $yaml)
@@ -140,8 +141,11 @@ class ReportingTest extends Base {
         $this->assertContains($setName->getNewName(), $command->getOptions()['config']);
         $this->assertEquals('local.feature', $reportListener->getDataValues()['file_name']);
         $this->assertEquals('1', $reportListener->getDataValues()['status']);
-        var_dump("Now from the test file");
-        var_dump($reportListener->getDataValues());
+        $this->assertNotNull($reportListener->getDataValues()['remote_job_id']);
+        $this->assertNotEmpty($reportListener->getDataValues()['tags']);
+        $this->assertNotEmpty($reportListener->getDataValues()['custom_data']);
+//        var_dump("Now from the test file");
+//        var_dump($reportListener->getDataValues());
     }
 
 } 

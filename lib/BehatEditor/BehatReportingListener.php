@@ -70,18 +70,15 @@ class BehatReportingListener implements BehatSuccessListenerInterface {
      */
     public function handleSuccess($event) {
         $this->success_event = $event;
-        var_dump("Time to report");
-        //Get UUID
-        //var_dump($event->getWrapper()->getUuid());
-
-        //Get the path to the yml file or yaml array
-        // so we can grab info
         $this->optionsFromYaml();
         $this->setOutput();
         $this->setJobUuid();
         $this->setBranch();
         $this->setFileName();
         $this->setRepoName();
+        $this->setRemoteJobId();
+        $this->setTagsValue();
+        $this->setCustomDataValue();
         $this->reportDataValueStatus();
     }
 
@@ -162,6 +159,16 @@ class BehatReportingListener implements BehatSuccessListenerInterface {
 
     public function setRemoteJobId()
     {
-        $this->data_values['remote_job_id'] = $this->success_event->getWrapper()->setRemoteTestingServiceId();
+        $this->data_values['remote_job_id'] = $this->success_event->getWrapper()->getRemoteTestingServiceId();
+    }
+
+    public function setTagsValue()
+    {
+        $this->data_values['tags'] = $this->success_event->getWrapper()->getTags();
+    }
+
+    public function setCustomDataValue()
+    {
+        $this->data_values['custom_data'] = $this->success_event->getWrapper()->getCustomData();
     }
 }

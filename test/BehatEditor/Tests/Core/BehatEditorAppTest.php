@@ -2,6 +2,7 @@
 
 namespace BehatEditor\Core\Tests;
 
+use BehatEditor\BehatEditorBehatWrapper;
 use BehatEditor\BehatPrepareListener;
 use BehatEditor\BehatSetNewNameOnYaml;
 use BehatEditor\Tests\Base;
@@ -31,9 +32,9 @@ class BehatEditorTest extends Base {
      *
      * @test
      */
-    public function thow_exception_on_test_fail()
+    public function throw_exception_on_test_fail()
     {
-        $behat_wrapper = new BehatWrapper();
+        $behat_wrapper = new BehatEditorBehatWrapper();
         $bin = __DIR__ . '/../../../../bin/';
         $yaml = __DIR__ . '/../../../../private/behat.yml';
         $test = __DIR__ . '/../../../../private/features/fail_test.feature';
@@ -55,7 +56,7 @@ class BehatEditorTest extends Base {
      */
     public function listen_on_wrapper_non_output_event()
     {
-        $behat_wrapper = new BehatWrapper();
+        $behat_wrapper = new BehatEditorBehatWrapper();
         $bin = __DIR__ . '/../../../../bin/';
         $yaml = __DIR__ . '/../../../../private/behat.yml';
         $test = __DIR__ . '/../../../../private/features/local.feature';
@@ -85,7 +86,7 @@ class BehatEditorTest extends Base {
      */
     public function listen_on_wrapper_phantom_prepare_event_set_tmp_folder()
     {
-        $behat_wrapper = new BehatWrapper();
+        $behat_wrapper = new BehatEditorBehatWrapper();
         $bin = __DIR__ . '/../../../../bin/';
         $yaml = __DIR__ . '/../../../../private/behat.yml';
         $test = __DIR__ . '/../../../../private/features/local.feature';
@@ -99,7 +100,6 @@ class BehatEditorTest extends Base {
 
         //Add behat.command.prepare
         $setName = new BehatSetNewNameOnYaml();
-        $setName->setYmlName('PHP Unit Test');
         $listener = new BehatPrepareListener($setName);
 
         $behat_wrapper->addPrepareListener($listener);
@@ -114,50 +114,7 @@ class BehatEditorTest extends Base {
         $this->assertContains($setName->getNewName(), $command->getOptions()['config']);
     }
 
-    /**
-     * @test
-     */
-    public function listen_on_wrapper_phantom_prepare_event_set_name_now_in_yaml_file()
-    {
-        $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../../bin/';
-        $yaml = __DIR__ . '/../../../../private/behat.yml';
-        $test = __DIR__ . '/../../../../private/features/local.feature';
 
-        $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
-
-        //Listeners
-
-        //This one gets Output while it is going line by line
-        $behat_wrapper->addOutputListener(new BehatOutputListener());
-
-        //Add behat.command.prepare
-
-        $setName = new BehatSetNewNameOnYaml();
-        $setName->setYmlName('PHP Unit Test');
-        $listener = new BehatPrepareListener($setName);
-
-        $behat_wrapper->addPrepareListener($listener);
-
-        $command = BehatCommand::getInstance()
-            ->setOption('config', $yaml)
-            ->setOption('profile', 'phantom')
-            ->setTestPath($test);
-
-        //@TODO how to much run the behat side of this for testing
-
-        $behat_wrapper->run($command);
-
-        $this->assertContains($setName->getYmlName(), file_get_contents($command->getOptions()['config']));
-
-    }
-
-
-
-    /**
-     * Test Get Sl Job
-     * this was not needed since that API works and is tested. Using the uuid name show above to work means this will work
-     */
 
     /**
      * Test Get Output on Fail
@@ -167,7 +124,7 @@ class BehatEditorTest extends Base {
      */
     public function get_output_on_failed_test()
     {
-        $behat_wrapper = new BehatWrapper();
+        $behat_wrapper = new BehatEditorBehatWrapper();
         $bin = __DIR__ . '/../../../../bin/';
         $yaml = __DIR__ . '/../../../../private/behat.yml';
         $test = __DIR__ . '/../../../../private/features/fail_test.feature';
@@ -177,56 +134,7 @@ class BehatEditorTest extends Base {
         //Set Stream Output
         //without this the output would not come till the end
         //
-        $behat_wrapper->streamOutput(true);
-
-        //This one gets Output while it is going line by line
-        $outputListener = new BehatOutputListener();
-        $behat_wrapper->addOutputListener($outputListener);
-
-        //Add behat.command.prepare
-        $setName = new BehatSetNewNameOnYaml();
-        $listener = new BehatPrepareListener($setName);
-
-        $behat_wrapper->addPrepareListener($listener);
-
-        $command = BehatCommand::getInstance()
-            ->setOption('config', $yaml)
-            ->setOption('profile', 'phantom')
-            ->setTestPath($test);
-
-        try {
-            $behat_wrapper->run($command);
-        }
-        catch(\BehatWrapper\BehatException $e) {
-
-        }
-        //At this point we have
-        // the name
-        // the output of the test
-        // and we know if it is pass or fail via the catch above
-        //
-        var_dump($outputListener->getOutput());
-        $this->assertNotEmpty($outputListener->getOutput());
-    }
-
-    /**
-     * Leave buffer open till test is done
-     *
-     * @test
-     */
-    public function set_stream_true_for_output()
-    {
-        $behat_wrapper = new BehatWrapper();
-        $bin = __DIR__ . '/../../../../bin/';
-        $yaml = __DIR__ . '/../../../../private/behat.yml';
-        $test = __DIR__ . '/../../../../private/features/local.feature';
-
-        $behat_wrapper->setBehatBinary($bin)->setTimeout(600);
-
-        //Set Stream Output
-        //without this the output would not come till the end
-        //
-        $behat_wrapper->streamOutput(true);
+        $behat_wrapper->streamOutput(false);
 
         //This one gets Output while it is going line by line
         $outputListener = new BehatOutputListener();
@@ -256,7 +164,6 @@ class BehatEditorTest extends Base {
         //
         $this->assertNotEmpty($outputListener->getOutput());
     }
-
 
 //**
 // Test below here are not best to run
@@ -280,7 +187,7 @@ class BehatEditorTest extends Base {
 //                sleep(1);
 //            }
 //        }
-//        $behat_wrapper = new BehatWrapper();
+//        $behat_wrapper = new BehatEditorBehatWrapper();
 //        $bin = __DIR__ . '/../../../../bin/';
 //        $yaml = __DIR__ . '/../../../../private/behat.yml';
 //        $test = __DIR__ . '/../../../../private/features/local_long_test.feature';
@@ -314,11 +221,4 @@ class BehatEditorTest extends Base {
 //            sleep(1);
 //        }
 //    }
-
-
-    /**
-     * Test Reporting API
-     * get on output and uuid to set the report and the remote_report tables together belongsTo type relationship
-     */
-
 } 
