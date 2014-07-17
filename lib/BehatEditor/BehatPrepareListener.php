@@ -33,7 +33,7 @@ class BehatPrepareListener implements BehatPrepareListenerInterface{
     public function handlePrepare(BehatPrepareEvent $event)
     {
         $this->event = $event;
-        $this->behatSetNewNameOnYaml->setEvent($event)->setName();
+        $this->behatSetNewNameOnYaml->setEvent($event)->setName($event->getWrapper()->getUuid());
     }
 
 

@@ -53,13 +53,15 @@ class BehatReportingListener implements BehatSuccessListenerInterface {
         'version' => null,
         'platform' => null,
         'base_url' => null,
-        'repo' => null,
-        'filename' => null,
+        'repo_name' => null,
+        'file_name' => null,
         'branch' => null,
         'status' => null,
         'user_uuid' => null,
         'remote_job_id' => null,
-        'job_id'  => null,
+        'job_uuid'  => null,
+        'output'  => null,
+        'tags' => []
     ];
 
 
@@ -74,21 +76,23 @@ class BehatReportingListener implements BehatSuccessListenerInterface {
 
         //Get the path to the yml file or yaml array
         // so we can grab info
-        $this->optionsFromYaml($event);
-
-        //Finally get the output
-        //var_dump($event->getProcess()->getOutput());
-        var_dump($this->data_values);
+        $this->optionsFromYaml();
+        $this->setOutput();
+        $this->setJobUuid();
+        $this->setBranch();
+        $this->setFileName();
+        $this->setRepoName();
+        $this->reportDataValueStatus();
     }
 
-    public function optionsFromYaml($event)
+    public function optionsFromYaml()
     {
-        if(!$event->getCommand()->getOptions()['config'])
+        if(!$this->success_event->getCommand()->getOptions()['config'])
         {
             return $this->options = [];
         }
-        $path                   = $event->getCommand()->getOptions()['config'];
-        $this->active_profile   = $event->getCommand()->getOptions()['profile'];
+        $path                   = $this->success_event->getCommand()->getOptions()['config'];
+        $this->active_profile   = $this->success_event->getCommand()->getOptions()['profile'];
 
         $this->getBehatYmlParser()->setYamlToArray($path);
         $this->pullOutAllOptionsFromActiveProfile();
@@ -116,9 +120,48 @@ class BehatReportingListener implements BehatSuccessListenerInterface {
         }
     }
 
+    public function getDataValues()
+    {
+        return $this->data_values;
+    }
+
     public function setDataValues($key, $value)
     {
         $this->data_values[$key] = $value;
     }
 
+    public function setJobUuid()
+    {
+        $this->data_values['job_uuid'] = $this->success_event->getWrapper()->getUuid();
+    }
+
+    public function setOutput()
+    {
+        $this->data_values['output'] = $this->success_event->getProcess()->getOutput();
+    }
+
+    public function setBranch()
+    {
+        $this->data_values['branch'] = $this->success_event->getWrapper()->getBranch();
+    }
+
+    public function setRepoName()
+    {
+        $this->data_values['repo_name'] = $this->success_event->getWrapper()->getRepoName();
+    }
+
+    public function setFileName()
+    {
+        $this->data_values['file_name'] = $this->success_event->getWrapper()->getFileName();
+    }
+
+    public function reportDataValueStatus()
+    {
+        $this->data_values['status'] = 1;
+    }
+
+    public function setRemoteJobId()
+    {
+        $this->data_values['remote_job_id'] = $this->success_event->getWrapper()->setRemoteTestingServiceId();
+    }
 }

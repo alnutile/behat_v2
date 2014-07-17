@@ -21,10 +21,11 @@ class SauceLabsErrorListener  extends SauceLabsBase implements BehatErrorListene
 
     public function handleError($event)
     {
+        $this->event_object = $event;
         $this->setStatus(0);
         $this
-            ->updateStatus($event)
-            ->updateTags($event)
-            ->updateCustomData($event);
+            ->updateStatus()
+            ->updateTags()
+            ->updateCustomData();
     }
 } 

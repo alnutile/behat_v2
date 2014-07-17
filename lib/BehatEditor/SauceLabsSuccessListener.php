@@ -21,6 +21,7 @@ class SauceLabsSuccessListener  extends SauceLabsBase implements BehatSuccessLis
 
     public function handleSuccess($event)
     {
+        $this->event_object = $event;
         $this->setStatus(1);
         $this
             ->updateStatus($event)

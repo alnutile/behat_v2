@@ -103,22 +103,14 @@ trait BehatYmlMangler {
 
     public function getNewName()
     {
-        if(null === $this->new_name) {
-            $this->setNewName();
-        }
         return $this->new_name;
     }
 
-    public function setNewName($name = null)
+    public function setNewName($name)
     {
-        if(null === $name) {
-            $this->new_name = $this->getUuid() . '_behat.yml';
-        } else {
-            $this->new_name = str_replace(' ', '_', $name) . '_behat.yml';
-        }
+        $this->new_name = str_replace(' ', '_', $name) . '_behat.yml';
         return $this;
     }
-
 
     public function getYmlArray() {
         if(null === $this->ymlArray) {

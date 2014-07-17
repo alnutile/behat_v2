@@ -22,9 +22,8 @@ use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
  * @package BehatEditor
  */
 class BehatSetNewNameOnYaml   {
-    use BehatYmlMangler, BehatEditorTraits;
+    use BehatYmlMangler;
 
-    protected $yml_name;
     protected $new_name;
 
     public function setEvent($event)
@@ -39,13 +38,14 @@ class BehatSetNewNameOnYaml   {
     }
 
 
-    public function setName()
+    public function setName($name)
     {
         $this->getBehatYmlParser()->setOptions($this->event->getOptions());
-
+        //@TODO remove this or clean it up just seems to hard to ues this trait
+        $this->setNewName($name);
         if($this->checkIfNameAvailable()) {
             $this->updated_yaml = $this->getYmlArray();
-            $this->updated_yaml[$this->profile_key]['extensions']['Behat\MinkExtension\Extension']['selenium2']['capabilities']['name'] = $this->getYmlName();
+            $this->updated_yaml[$this->profile_key]['extensions']['Behat\MinkExtension\Extension']['selenium2']['capabilities']['name'] = $name;
 
             //@TODO might be best to move this to it's own step
             $this->saveToTmp();
@@ -53,21 +53,11 @@ class BehatSetNewNameOnYaml   {
         }
     }
 
-    public function getYmlName()
-    {
-        if (null === $this->yml_name)
-        {
-            $this->setYmlName();
-        }
-        return $this->yml_name;
-    }
-
-    public function setYmlName($yml_name = null)
-    {
-        $this->yml_name = ($yml_name === null) ? $this->getUuid() : $yml_name;
-        return $this;
-    }
-
+    /**
+     * See if name is set in the active profile
+     *
+     * @return bool
+     */
     public function checkIfNameAvailable()
     {
         $this->getProfileKey();

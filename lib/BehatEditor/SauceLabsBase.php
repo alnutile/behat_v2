@@ -19,36 +19,28 @@ abstract class SauceLabsBase {
 
     protected $saucelabsClient;
     protected $activeId;
-    protected $tags = [];
-    protected $custom_data = [];
+    protected $event_object;
+    protected $jobsFound;
 
     public function __construct(\SauceLabs\Client $sauceLabsClient = null)
     {
         $this->saucelabsClient = $sauceLabsClient;
     }
 
-    protected function updateCustomData($event)
+    protected function updateCustomData()
     {
-        $this->auth();
-        $this->getSaucelabsClient()->api('jobs')->updateJob(
-            $this->getUserName(),
-            $this->getJobId(),
-            $this->getCustomData());
+        $custom_data = $this->event_object->getWrapper()->getCustomData();
+        if(count($custom_data) > 0) {
+            $this->auth();
+            $this->getSaucelabsClient()->api('jobs')->updateJob(
+                $this->getUserName(),
+                $this->getJobId(),
+                $custom_data);
+        }
         return $this;
     }
 
-    public function getCustomData()
-    {
-        return $this->custom_data;
-    }
-
-    public function setCustomData(array $custom_data)
-    {
-        $this->custom_data = array_merge($this->custom_data, $custom_data);
-        return $this;
-    }
-
-    protected function updateStatus($event)
+    protected function updateStatus()
     {
         $this->auth();
         $this->getSaucelabsClient()->api('jobs')->updateJob(
@@ -59,45 +51,44 @@ abstract class SauceLabsBase {
     }
 
 
-    protected function updateTags($event)
+    protected function updateTags()
     {
-        $this->auth();
-        $this->getSaucelabsClient()->api('jobs')->updateJob(
-            $this->getUserName(),
-            $this->getJobId(),
-            ['tags' => $this->getTags()]);
-        return $this;
-    }
-
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    public function setTags(array $tags)
-    {
-        $this->tags = array_merge($this->tags, $tags);
+        $tags = $this->event_object->getWrapper()->getTags();
+        if(count($tags) > 0) {
+            $this->auth();
+            $this->getSaucelabsClient()->api('jobs')->updateJob(
+                $this->getUserName(),
+                $this->getJobId(),
+                ['tags' => $tags]);
+        }
         return $this;
     }
 
     public function getJobId()
     {
-        if($this->activeId) {
-            return $this->activeId;
+        if(!$this->activeId) {
+            $this->setJobId();
         }
 
+        return $this->activeId;
+    }
+
+    public function setJobId($id = null)
+    {
         $this->auth();
 
-        try {
-            $getJobsWithName = $this->getSaucelabsClient()->api('jobs')->getJobsBy(
-                $this->getUserName(), 'name', $this->getUuid()
-            );
-            $this->activeId = $getJobsWithName[0]['id'];
-            return $this->activeId;
+        $getJobsWithName = $this->getSaucelabsClient()->api('jobs')->getJobsBy(
+        $this->getUserName(), 'name', $this->event_object->getWrapper()->getUuid());
 
-        } catch(\Exception $e) {
-            throw new \Exception("Failed finding job with the name " . $this->getUuid());
+        if(empty($getJobsWithName)) {
+            throw new \Exception("Failed finding job with the name @ " . $this->event_object->getWrapper()->getUuid());
         }
+        $this->jobsFound = $getJobsWithName;
+        $this->activeId = $getJobsWithName[0]['id'];
+        //Setting on Event as well
+        $this->event_object->getWrapper()->setRemoteTestingServiceId($this->activeId);
+
+        return $this;
     }
 
     public function auth()
