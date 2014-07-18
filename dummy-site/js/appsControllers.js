@@ -12,6 +12,14 @@ angular.module('appControllers', [])
                 });
             }
 
+            $scope.runFail = function() {
+                Restangular.one('run_fail', 1).one('filename', 'test_fail.feature').get().then(function(response){
+                    console.log(response);
+                    $scope.response = response;
+                });
+            }
+
+
             $scope.runReal = function() {
                 Restangular.one('run', 1).one('filename', 'test.feature').get().then(function(response){
                     console.log(response);

@@ -13,6 +13,7 @@ use BehatEditor\Git\Exceptions\GithubWrapperExceptions;
 use BehatEditor\Git\GithubApiWrapper;
 use BehatEditor\Helpers\BehatFileFolderHelper;
 use BehatWrapper\BehatCommand;
+use BehatWrapper\BehatException;
 
 /**
  * @TODO break this out into in a Service
@@ -66,12 +67,17 @@ class BehatRunController {
         //1. Get the file from Github
         $this->getFileFromGithub($filename);
         //2. Put the file to where we need it
-        $path = BehatFileFolderHelper::putFileInFolder($this->content, $this->repo_settings['repo_name'], $this->repo_settings['branch'], $this->repo_settings['folder'], $this->filename);
+        $path = BehatFileFolderHelper::putFileInFolder($this->content['content'], $this->repo_settings['repo_name'], $this->repo_settings['branch'], $this->repo_settings['folder'], $this->filename);
         //   now set it on the command method
         $this->behatEditorApp->getBehatCommand()->setTestPath($path);
         //4. Run the test against that file
-        $output = $this->behatEditorApp->getBehatWrapper()->run($this->behatEditorApp->getBehatCommand());
+        try {
+            $output = $this->behatEditorApp->getBehatWrapper()
+                ->run($this->behatEditorApp->getBehatCommand());
+        }
+        catch(\BehatWrapper\BehatException $e) {
 
+        }
         //5. Clean up
         BehatFileFolderHelper::removeTest($this->repo_settings['repo_name'], $this->repo_settings['branch'], $this->repo_settings['folder'], $this->filename);
         return $output;
@@ -99,7 +105,11 @@ class BehatRunController {
             ->setAccountName($this->repo_settings['account']);
         try {
             $path = (strlen($this->repo_settings['folder'])) ? $this->repo_settings['folder'] . '/' : '';
-            $this->content = $this->getGithubApiWrapper()->content($path . $this->filename);
+            $response = $this->getGithubApiWrapper()->show($path . $this->filename);
+            $this->getGithubApiWrapper()->setFileObject($response);
+            $this->content = $this->getGithubApiWrapper()->getFileObject();
+            //$this->behatEditorApp->getBehatWrapper()->setCustomData($this->content);
+            $this->behatEditorApp->getBehatWrapper()->setTags($this->content['tags_array']);
             return $this->content;
         }
         catch(\Exception $e)

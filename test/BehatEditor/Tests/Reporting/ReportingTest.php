@@ -186,7 +186,6 @@ class ReportingTest extends Base {
         $listener = new BehatPrepareListener($setName);
         $behat_wrapper->addPrepareListener($listener);
 
-
         //Add a report listener
         $reportListener = new BehatReportingListener();
         $behat_wrapper->addSuccessListener($reportListener);

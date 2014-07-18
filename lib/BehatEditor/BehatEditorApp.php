@@ -9,6 +9,10 @@
 namespace BehatEditor;
 
 use BehatEditor\Controllers\BehatRunController;
+use BehatEditor\Reporting\BehatReportingErrorListener;
+use BehatEditor\Reporting\BehatReportingListener;
+use BehatEditor\SauceLabs\SauceLabsErrorListener;
+use BehatEditor\SauceLabs\SauceLabsSuccessListener;
 use BehatWrapper\BehatCommand;
 use BehatWrapper\BehatException;
 use BehatWrapper\BehatWrapper;
@@ -32,8 +36,23 @@ class BehatEditorApp {
 
         $this->behatWrapper = ($behatWrapper == null) ? new BehatEditorBehatWrapper() : $behatWrapper;
         $this->behatCommand = $behatCommand;
+        $this->setProfile('saucelabs');
         $this->getBehatWrapper()
+            ->setUuid()
+            ->setTimeout(600)
             ->setBehatBinary($this->getBin());
+        $this->setPrepareListeners();
+        $this->setOutputListeners();
+        $this->setErrorListeners();
+        $this->setSuccessListeners();
+    }
+
+    public function setPrepareListeners()
+    {
+        $setName = new BehatSetNewNameOnYaml();
+        $listener = new BehatPrepareListener($setName);
+        $this->getBehatWrapper()->addPrepareListener($listener);
+        return $this;
     }
 
     public function getBehatCommand()
@@ -137,6 +156,27 @@ class BehatEditorApp {
     {
         $this->profile = $profile;
         return $profile;
+    }
+
+    private function setOutputListeners()
+    {
+        $this->getBehatWrapper()->addOutputListener(new BehatOutputListener());
+    }
+
+    private function setErrorListeners()
+    {
+        $setError = new SauceLabsErrorListener();
+        $this->getBehatWrapper()->addErrorListener($setError);
+        $reportError = new BehatReportingErrorListener();
+        $this->getBehatWrapper()->addErrorListener($reportError);
+    }
+
+    private function setSuccessListeners()
+    {
+        $setSuccess = new SauceLabsSuccessListener();
+        $this->getBehatWrapper()->addSuccessListener($setSuccess);
+        $reportListener = new BehatReportingListener();
+        $this->getBehatWrapper()->addSuccessListener($reportListener);
     }
 
 
