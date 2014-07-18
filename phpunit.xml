@@ -26,5 +26,8 @@
         <testsuite name="Reporting">
             <directory>test/BehatEditor/Tests/Reporting</directory>
         </testsuite>
+        <testsuite name="Git">
+            <directory>test/BehatEditor/Tests/Git</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

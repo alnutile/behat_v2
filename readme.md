@@ -50,6 +50,8 @@ in many ways document the code
 
 If you are using your local machine try ./start_server.sh to start the server
 
+Also there needs to be a .evn file in the root of the app. Copy env_example to .env and set those settings as needed
+
 
 ## PHPUnit
 

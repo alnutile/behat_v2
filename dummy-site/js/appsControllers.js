@@ -12,6 +12,13 @@ angular.module('appControllers', [])
                 });
             }
 
+            $scope.runReal = function() {
+                Restangular.one('run', 1).one('filename', 'test.feature').get().then(function(response){
+                    console.log(response);
+                    $scope.response = response;
+                });
+            }
+
             $scope.streamProcess = function()
             {
                 Restangular.one('stream_process').get().then(function(response){

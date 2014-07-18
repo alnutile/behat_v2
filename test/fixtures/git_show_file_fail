@@ -1,0 +1,74 @@
+
+-
+    request:
+        method: GET
+        url: 'https://api.github.com/user'
+        headers:
+            Host: api.github.com
+            Accept: application/vnd.github.beta+json
+            User-Agent: 'php-github-api (http://github.com/KnpLabs/php-github-api)'
+            Authorization: 'Basic YWxudXRpbGU6M2I0NDRlMDY3NWNkNTVlY2EwNjQ4YWM2MzU2Y2I0OTY1MjExNDIxMQ=='
+            Content-Length: '0'
+    response:
+        status: 200
+        headers:
+            Server: GitHub.com
+            Date: 'Fri, 18 Jul 2014 13:13:32 GMT'
+            Content-Type: 'application/json; charset=utf-8'
+            Status: '200 OK'
+            X-RateLimit-Limit: '5000'
+            X-RateLimit-Remaining: '4987'
+            X-RateLimit-Reset: '1405692294'
+            Cache-Control: 'private, max-age=60, s-maxage=60'
+            Last-Modified: 'Fri, 18 Jul 2014 12:59:23 GMT'
+            ETag: '"d0151d856927636e1ead2f12d55896ba"'
+            X-OAuth-Scopes: 'gist, repo, user'
+            X-Accepted-OAuth-Scopes: ''
+            Vary: 'Accept, Authorization, Cookie, X-GitHub-OTP'
+            X-GitHub-Media-Type: 'github.beta; format=json'
+            X-XSS-Protection: '1; mode=block'
+            X-Frame-Options: deny
+            Content-Security-Policy: 'default-src ''none'''
+            Content-Length: '1413'
+            Access-Control-Allow-Credentials: 'true'
+            Access-Control-Expose-Headers: 'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
+            Access-Control-Allow-Origin: '*'
+            X-GitHub-Request-Id: 'C6E4C7FE:6767:AD10DD:53C91D7B'
+            Strict-Transport-Security: 'max-age=31536000; includeSubdomains'
+            X-Content-Type-Options: nosniff
+            X-Served-By: a1d8c69b807c8e21f06cad9da377d1b0
+        body: '{"login":"alnutile","id":365385,"avatar_url":"https://avatars.githubusercontent.com/u/365385?","gravatar_id":"52ffec2934ce4bfc27e81ce63ec2e379","url":"https://api.github.com/users/alnutile","html_url":"https://github.com/alnutile","followers_url":"https://api.github.com/users/alnutile/followers","following_url":"https://api.github.com/users/alnutile/following{/other_user}","gists_url":"https://api.github.com/users/alnutile/gists{/gist_id}","starred_url":"https://api.github.com/users/alnutile/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/alnutile/subscriptions","organizations_url":"https://api.github.com/users/alnutile/orgs","repos_url":"https://api.github.com/users/alnutile/repos","events_url":"https://api.github.com/users/alnutile/events{/privacy}","received_events_url":"https://api.github.com/users/alnutile/received_events","type":"User","site_admin":false,"name":"Alfred Nutile","company":"Alfred Nutile, Inc","blog":"http://alfrednutile.info/about","location":"Greenfield, Massachusetts","email":"me@alfrednutile.info","hireable":true,"bio":null,"public_repos":102,"public_gists":82,"followers":9,"following":10,"created_at":"2010-08-16T00:22:25Z","updated_at":"2014-07-18T12:59:23Z","private_gists":7,"total_private_repos":18,"owned_private_repos":18,"disk_usage":448326,"collaborators":19,"plan":{"name":"medium","space":2516582,"collaborators":0,"private_repos":20}}'
+-
+    request:
+        method: GET
+        url: 'https://api.github.com/repos/alnutile/private_test/contents/BOB.md?ref=master'
+        headers:
+            Host: api.github.com
+            Accept: application/vnd.github.beta+json
+            User-Agent: 'php-github-api (http://github.com/KnpLabs/php-github-api)'
+            Authorization: 'Basic YWxudXRpbGU6M2I0NDRlMDY3NWNkNTVlY2EwNjQ4YWM2MzU2Y2I0OTY1MjExNDIxMQ=='
+            Content-Length: '0'
+    response:
+        status: 404
+        headers:
+            Server: GitHub.com
+            Date: 'Fri, 18 Jul 2014 13:13:32 GMT'
+            Content-Type: 'application/json; charset=utf-8'
+            Status: '404 Not Found'
+            X-RateLimit-Limit: '5000'
+            X-RateLimit-Remaining: '4986'
+            X-RateLimit-Reset: '1405692294'
+            X-OAuth-Scopes: 'gist, repo, user'
+            X-Accepted-OAuth-Scopes: ''
+            X-GitHub-Media-Type: 'github.beta; format=json'
+            X-XSS-Protection: '1; mode=block'
+            X-Frame-Options: deny
+            Content-Security-Policy: 'default-src ''none'''
+            Content-Length: '77'
+            Access-Control-Allow-Credentials: 'true'
+            Access-Control-Expose-Headers: 'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
+            Access-Control-Allow-Origin: '*'
+            X-GitHub-Request-Id: 'C6E4C7FE:6767:AD1145:53C91D7C'
+            Strict-Transport-Security: 'max-age=31536000; includeSubdomains'
+            X-Content-Type-Options: nosniff
+        body: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'

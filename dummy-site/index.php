@@ -1,6 +1,7 @@
 <?php
 require '../vendor/autoload.php';
 
+use BehatEditor\BehatEditorApp;
 use BehatEditor\BehatPrepareListener;
 use BehatEditor\BehatSetNewNameOnYaml;
 use BehatWrapper\BehatCommand;
@@ -19,6 +20,24 @@ $app->get('/', function () use ($app) {
 
 $app->get('/angular', function () use ($app) {
     $app->render('angular.php');
+});
+
+$app->get('/run/:repo_setting_id/filename/:filename', function ($repo_setting_id, $filename) use ($app) {
+
+    //1. Query for the repo info
+    //@TODO add a repo_query_step
+
+    //2. then pass this along
+
+    //Other Params could be
+    //1. Use Token 1/0
+    //2. Token Filename relative to above
+    $params = $app->request->get();
+
+    $behatApp = new BehatEditorApp();
+    $response = $behatApp->run($repo_setting_id, $filename);
+    $app->response->setBody($response);
+
 });
 
 $app->get('/run_test', function () use ($app) {
