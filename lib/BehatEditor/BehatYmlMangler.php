@@ -20,7 +20,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 trait BehatYmlMangler {
 
-    protected $event;
     protected $profile_key;
     protected $updated_yaml;
     protected $ymlPath;

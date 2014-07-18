@@ -6,10 +6,10 @@
  * Time: 1:06 PM
  */
 
-namespace BehatEditor;
+namespace BehatEditor\SauceLabs;
 
 use BehatWrapper\Event\BehatSuccessListenerInterface;
-use BehatEditor\SauceLabsBase;
+use BehatEditor\SauceLabs\SauceLabsBase;
 
 /**
  * @TODO set tags and custom data as needed

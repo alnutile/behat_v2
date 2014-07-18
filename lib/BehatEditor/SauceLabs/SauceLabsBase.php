@@ -6,13 +6,13 @@
  * Time: 1:21 PM
  */
 
-namespace BehatEditor;
+namespace BehatEditor\SauceLabs;
 
-use BehatEditor\Tests\BaseTest;
+use BehatEditor\BehatEditorTraits;
 use SauceLabs\Client;
 
 use Dotenv;
-\Dotenv::load(__DIR__.'/../../');
+\Dotenv::load(__DIR__.'/../../../');
 
 abstract class SauceLabsBase {
     use BehatEditorTraits;
@@ -49,7 +49,6 @@ abstract class SauceLabsBase {
             ['passed' => $this->getStatus()]);
         return $this;
     }
-
 
     protected function updateTags()
     {
